@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/color_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_margin="@dimen/base_content_padding"
+        android:id="@+id/head"
+        android:src="@drawable/ic_camera"
+        android:layout_width="@dimen/tweet_head_width_height"
+        android:layout_height="@dimen/tweet_head_width_height" />
+    <TextView
+        android:id="@+id/sender"
+        android:layout_alignTop="@+id/head"
+        android:layout_toRightOf="@+id/head"
+        android:layout_marginBottom="@dimen/base_content_padding"
+        android:textColor="@color/color_sender"
+        android:layout_width="match_parent"
+        android:maxLines="1"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/content"
+        android:layout_below="@+id/sender"
+        android:layout_toRightOf="@+id/head"
+        android:textColor="@color/color_sender"
+        android:layout_width="match_parent"
+        android:maxLines="1"
+        android:layout_height="wrap_content" />
+    <com.example.blackdandan.wechatmomentsdemo.view.TweetImagesView
+        android:id="@+id/images"
+        android:layout_below="@+id/content"
+        android:layout_toRightOf="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.example.blackdandan.wechatmomentsdemo.view.CommentsListView
+        android:layout_below="@id/images"
+        android:layout_toRightOf="@id/head"
+        android:id="@+id/comments"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>

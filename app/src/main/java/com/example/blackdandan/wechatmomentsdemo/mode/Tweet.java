@@ -21,6 +21,10 @@ public class Tweet {
         this.images = images;
     }
 
+    public List<Map<String, String>> getImages() {
+        return images;
+    }
+
     public UserInfo getSender() {
         return sender;
     }
