@@ -21,7 +21,10 @@ public class CommentsListView extends ListView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         ListAdapter adapter = getAdapter();
-        if (adapter == null)return;
+        if (adapter == null){
+            widthMeasureSpec = 0;
+            heightMeasureSpec = 0;
+        }
         int count = adapter.getCount();
         if (count == 0){
             widthMeasureSpec = 0;

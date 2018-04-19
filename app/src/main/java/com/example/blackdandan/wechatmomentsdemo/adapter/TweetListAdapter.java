@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.blackdandan.wechatmomentsdemo.R;
+import com.example.blackdandan.wechatmomentsdemo.imageloader.ImageLoaderConfig;
+import com.example.blackdandan.wechatmomentsdemo.imageloader.MemoryCache;
 import com.example.blackdandan.wechatmomentsdemo.imageloader.SimpleImageLoader;
 import com.example.blackdandan.wechatmomentsdemo.mode.Tweet;
 import com.example.blackdandan.wechatmomentsdemo.mode.UserInfo;
@@ -25,12 +27,19 @@ public class TweetListAdapter extends RecyclerView.Adapter {
     private UserInfo selfInfo;
     private List<Tweet> tweets;
     private Context context;
+    private ImageLoaderConfig imageLoaderConfig = new ImageLoaderConfig.Builder().setFaildImage(R.drawable.default_profile_image)
+            .setCachePolicy(new MemoryCache())
+            .setThreadCount(1).build();
     public TweetListAdapter(Context context){
         this.context = context;
     }
 
     public void setSelfInfo(UserInfo selfInfo) {
         this.selfInfo = selfInfo;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
     }
 
     @Override
@@ -43,14 +52,15 @@ public class TweetListAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEAD){
-            View view = LayoutInflater.from(context).inflate(R.layout.moment_head,parent);
+            View view = LayoutInflater.from(context).inflate(R.layout.moment_head,null);
             return new HeadViewHolder(view);
         }
         if (viewType == TYPE_TWEET){
-            View view = LayoutInflater.from(context).inflate(R.layout.tweet_item,parent);
+            View view = LayoutInflater.from(context).inflate(R.layout.tweet_item,null);
             return new TweetViewHolder(view,context);
         }
-        return null;
+        View view = LayoutInflater.from(context).inflate(R.layout.moment_head,null);
+         return new HeadViewHolder(view);
     }
 
     @Override
@@ -58,23 +68,26 @@ public class TweetListAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == TYPE_HEAD){
             if (selfInfo == null)return;//显示默认
            HeadViewHolder headViewHolder = (HeadViewHolder)holder;
-            SimpleImageLoader.getInstance().displayImage(headViewHolder.profileImage,selfInfo.getProfile_image());
-            SimpleImageLoader.getInstance().displayImage(headViewHolder.headImage,selfInfo.getAvatar());
+            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.profileImage,selfInfo.getProfile_image());
+            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.headImage,selfInfo.getAvatar());
             headViewHolder.nick.setText(selfInfo.getNick());
         }
         if (getItemViewType(position) == TYPE_TWEET){
-            Tweet tweet = tweets.get(position);
+            Tweet tweet = tweets.get(position-1);
             TweetViewHolder tweetViewHolder = (TweetViewHolder)holder;
-            SimpleImageLoader.getInstance().displayImage(tweetViewHolder.headImage,tweet.getSender().getAvatar());
+            if (tweet.getSender()!=null)
+            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(tweetViewHolder.headImage,tweet.getSender().getAvatar());
             tweetViewHolder.content.setText(tweet.getContent());
+            if (tweet.getImages()!=null)
             tweetViewHolder.setImages(tweet.getImages());
+            if (tweet.getComments()!=null)
             tweetViewHolder.setComments(tweet.getComments());
         }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return tweets == null?1:1+tweets.size();
     }
     public class TweetViewHolder extends RecyclerView.ViewHolder{
         public ImageView headImage;
@@ -100,6 +113,7 @@ public class TweetListAdapter extends RecyclerView.Adapter {
             imagesAdapter = new TweetImagesAdapter(context);
             tweetImagesView.setAdapter(imagesAdapter);
             commentAdapter = new CommentsListAdapter(context);
+            comments.setAdapter(commentAdapter);
         }
         public void setImages(List<Map<String ,String>> images){
             imagesAdapter.setImages(images);

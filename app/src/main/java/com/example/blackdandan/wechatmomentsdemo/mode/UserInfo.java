@@ -3,7 +3,7 @@ package com.example.blackdandan.wechatmomentsdemo.mode;
 import com.google.gson.annotations.SerializedName;
 
 public class UserInfo {
-    @SerializedName("profile-name")
+    @SerializedName("profile-image")
     private String profile_image;
     private String avatar;
     private String nick;
