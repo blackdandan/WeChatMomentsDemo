@@ -1,5 +1,8 @@
 package com.example.blackdandan.wechatmomentsdemo.imageloader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoaderManager {
     //缓存所有支持的Loader类型
     private Map<String ,Loader> mLoaderMap=new HashMap<>();
@@ -26,6 +29,6 @@ public class LoaderManager {
         {
             return mLoaderMap.get(schema);
         }
-        return new NullLoader();
+        return null;
     }
 }
