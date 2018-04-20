@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.blackdandan.wechatmomentsdemo.R;
 import com.example.blackdandan.wechatmomentsdemo.imageloader.ImageLoaderConfig;
 import com.example.blackdandan.wechatmomentsdemo.imageloader.MemoryCache;
@@ -21,6 +22,8 @@ import com.example.blackdandan.wechatmomentsdemo.view.TweetImagesView;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.blackdandan.wechatmomentsdemo.App.MAX_POOL_SIZE;
+
 public class TweetListAdapter extends RecyclerView.Adapter {
     private static final int TYPE_HEAD = 0;
     private static final int TYPE_TWEET= 1;
@@ -29,7 +32,7 @@ public class TweetListAdapter extends RecyclerView.Adapter {
     private Context context;
     private ImageLoaderConfig imageLoaderConfig = new ImageLoaderConfig.Builder().setFaildImage(R.drawable.default_profile_image)
             .setCachePolicy(new MemoryCache())
-            .setThreadCount(1).build();
+            .setThreadCount(MAX_POOL_SIZE).build();
     public TweetListAdapter(Context context){
         this.context = context;
     }
@@ -68,15 +71,21 @@ public class TweetListAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == TYPE_HEAD){
             if (selfInfo == null)return;//显示默认
            HeadViewHolder headViewHolder = (HeadViewHolder)holder;
-            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.profileImage,selfInfo.getProfile_image());
-            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.headImage,selfInfo.getAvatar());
+//            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.profileImage,selfInfo.getProfile_image());
+            Glide.with(context).load(selfInfo.getProfile_image()).into(headViewHolder.profileImage);
+//            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(headViewHolder.headImage,selfInfo.getAvatar());
+            Glide.with(context).load(selfInfo.getAvatar()).into(headViewHolder.headImage);
             headViewHolder.nick.setText(selfInfo.getNick());
         }
         if (getItemViewType(position) == TYPE_TWEET){
             Tweet tweet = tweets.get(position-1);
             TweetViewHolder tweetViewHolder = (TweetViewHolder)holder;
-            if (tweet.getSender()!=null)
-            SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(tweetViewHolder.headImage,tweet.getSender().getAvatar());
+            if (tweet.getSender()!=null){
+//                SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(tweetViewHolder.headImage,tweet.getSender().getAvatar());
+                tweetViewHolder.sender.setText(tweet.getSender().getNick());
+                System.out.println("do====avatar:"+tweet.getSender().getAvatar());
+                Glide.with(context).load(tweet.getSender().getAvatar()).into(tweetViewHolder.headImage);
+            }
             tweetViewHolder.content.setText(tweet.getContent());
             if (tweet.getImages()!=null)
             tweetViewHolder.setImages(tweet.getImages());

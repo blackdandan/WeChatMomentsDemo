@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.example.blackdandan.wechatmomentsdemo.R;
 import com.example.blackdandan.wechatmomentsdemo.adapter.TweetListAdapter;
+import com.example.blackdandan.wechatmomentsdemo.imageloader.MD5Utils;
 import com.example.blackdandan.wechatmomentsdemo.mode.Tweet;
 import com.example.blackdandan.wechatmomentsdemo.mode.UserInfo;
 
@@ -30,7 +32,6 @@ public class MomentActivity extends AppCompatActivity implements MomentContract.
         initView();//初始化视图
         presenter.loadSelfInfo();
         presenter.loadSomeTweets();
-
     }
     private void initView(){
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -39,7 +40,7 @@ public class MomentActivity extends AppCompatActivity implements MomentContract.
         setSupportActionBar(toolbar);
         swipeRefreshLayout = findViewById(R.id.swipe_layout);
         recyclerView = findViewById(R.id.recycler);
-        adapter = new TweetListAdapter(this.getApplicationContext());
+        adapter = new TweetListAdapter(this);
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);

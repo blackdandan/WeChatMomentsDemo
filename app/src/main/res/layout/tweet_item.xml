@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
+        android:background="@color/comment_background"
         android:layout_margin="@dimen/base_content_padding"
         android:id="@+id/head"
-        android:src="@drawable/ic_camera"
+        android:src="@drawable/ic_default_avatar"
         android:layout_width="@dimen/tweet_head_width_height"
         android:layout_height="@dimen/tweet_head_width_height" />
     <TextView
@@ -23,17 +24,20 @@
         android:id="@+id/content"
         android:layout_below="@+id/sender"
         android:layout_toRightOf="@+id/head"
-        android:textColor="@color/color_sender"
+        android:textColor="@color/color_tweet_content"
         android:layout_width="match_parent"
         android:maxLines="1"
         android:layout_height="wrap_content" />
     <com.example.blackdandan.wechatmomentsdemo.view.TweetImagesView
+        android:background="@color/comment_background"
         android:id="@+id/images"
         android:layout_below="@+id/content"
         android:layout_toRightOf="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_marginBottom="@dimen/base_content_padding"
+        android:layout_height="200dp"/>
     <com.example.blackdandan.wechatmomentsdemo.view.CommentsListView
+        android:background="@color/comment_background"
         android:layout_below="@id/images"
         android:layout_toRightOf="@id/head"
         android:id="@+id/comments"

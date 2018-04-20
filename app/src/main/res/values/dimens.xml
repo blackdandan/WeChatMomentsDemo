@@ -3,5 +3,6 @@
     <dimen name="base_content_padding">4dp</dimen>
     <dimen name="tweet_head_width_height">45dp</dimen>
     <dimen name="self_head_width_height">55dp</dimen>
-    <dimen name="comment_text">18sp</dimen>
+    <dimen name="tweet_width_height_9">10dp</dimen>
+    <dimen name="comment_text">7sp</dimen>
 </resources>
