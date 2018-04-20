@@ -7,9 +7,9 @@ import com.example.blackdandan.wechatmomentsdemo.App;
 import com.example.blackdandan.wechatmomentsdemo.mode.Tweet;
 import com.example.blackdandan.wechatmomentsdemo.mode.UserInfo;
 import com.example.blackdandan.wechatmomentsdemo.network.ServiceAgent;
-import com.example.blackdandan.wechatmomentsdemo.network.ThoughtWorksService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MomentPresenter implements MomentContract.Presenter {
@@ -20,7 +20,8 @@ public class MomentPresenter implements MomentContract.Presenter {
     private static final int SELF_INFO = 0;//加载自己ok
     private static  final int TWEETS = 1;//加载推文ok
     private UserInfo selfInfo;//自己的信息;
-    private List<Tweet> tweets;//推文
+    private List<Tweet> tweets;//所有推文
+    private List<Tweet> showingTweets = new ArrayList<>();//显示的推文
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -32,7 +33,7 @@ public class MomentPresenter implements MomentContract.Presenter {
                     view.showSelfInfo(selfInfo);
                     break;
                 case TWEETS://刷新推文
-                    view.updateTweets(tweets);
+                    loadFiveTweets();
                     break;
             }
             super.handleMessage(msg);
@@ -74,5 +75,26 @@ public class MomentPresenter implements MomentContract.Presenter {
             }
         };
         App.execute(runnable);
+    }
+
+    @Override
+    public void loadFiveTweets() {
+        if (tweets == null)return;
+        if (tweets.size()<=5){
+            view.updateTweets(tweets);
+        }else {
+            if(tweets.size()-showingTweets.size()>5){
+                showingTweets.addAll(tweets.subList(showingTweets.size(),showingTweets.size()+4));
+                view.updateTweets(showingTweets);
+            }else {
+                view.updateTweets(tweets);
+            }
+        }
+    }
+
+    @Override
+    public void loadFirstFiveTweets() {
+        showingTweets.clear();
+        loadFiveTweets();
     }
 }

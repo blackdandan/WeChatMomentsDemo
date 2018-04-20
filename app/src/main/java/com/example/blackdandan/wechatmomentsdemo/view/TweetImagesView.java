@@ -23,8 +23,8 @@ public class TweetImagesView extends GridView {
 
         int padding = DensityUtil.dp2px(context,context.getResources().getDimension(R.dimen.base_content_padding));
         tweetImageHeight_9 = DensityUtil.dp2px(context,context.getResources().getDimension(R.dimen.tweet_width_height_9))+ padding *2;
-        tweetImageWidth_1 = tweetImageHeight_9 * 3 +padding *2;//三倍的九张图模式的宽+padding
-        grid_width = tweetImageHeight_9 * 3 +padding *4;//三倍的九张图模式的宽+padding
+        tweetImageWidth_1 = tweetImageHeight_9 * 3 +padding *8;//三倍的九张图模式的宽+padding
+        grid_width = tweetImageHeight_9 * 3 +padding *8;//三倍的九张图模式的宽+padding
 
     }
 
@@ -57,6 +57,7 @@ public class TweetImagesView extends GridView {
             this.setNumColumns(1);
         }else {
             this.setNumColumns(3);
+            this.setColumnWidth(tweetImageHeight_9);
         }
         if (count>1 && count<4){
             width = grid_width;

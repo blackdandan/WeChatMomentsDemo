@@ -1,6 +1,7 @@
 package com.example.blackdandan.wechatmomentsdemo.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.blackdandan.wechatmomentsdemo.R;
 import com.example.blackdandan.wechatmomentsdemo.imageloader.ImageLoaderConfig;
 import com.example.blackdandan.wechatmomentsdemo.imageloader.MemoryCache;
@@ -33,10 +35,10 @@ public class TweetImagesAdapter extends BaseAdapter {
         tweetImageWidth_1 = tweetImageWidth_9 * 3 +padding *2;//三倍的九张图模式的宽+padding
         layoutParams_1 = new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                tweetImageWidth_1);
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams_9 = new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                tweetImageWidth_9);
+                ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
     public void setImages(List<Map<String,String>> images) {
@@ -70,8 +72,9 @@ public class TweetImagesAdapter extends BaseAdapter {
         if (convertView == null){
             imageView = new ImageView(context);
             imageView.setImageResource(R.drawable.ic_image_default);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             imageView.setBackgroundColor(context.getResources().getColor(R.color.color_white));
+            imageView.setBackgroundColor(Color.GRAY);
             if (getCount()==1){
                 imageView.setLayoutParams(layoutParams_1);
             }else {
@@ -85,7 +88,8 @@ public class TweetImagesAdapter extends BaseAdapter {
 //        SimpleImageLoader.getInstance(imageLoaderConfig).displayImage(imageView,images.get(position).get("url"));
         System.out.println("do====image:"+images.get(position).get("url"));
         Glide.with(context)
-                .load(images.get(position).get("url")).into(imageView);
+                .load(images.get(position).get("url"))
+                .into(imageView);
         return imageView;
     }
 

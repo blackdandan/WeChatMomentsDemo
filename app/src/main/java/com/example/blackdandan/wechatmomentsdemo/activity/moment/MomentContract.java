@@ -12,7 +12,8 @@ public final class MomentContract {
     public interface Presenter extends BasePresenter {
         void loadSelfInfo();//加载自己的信息
         void loadSomeTweets();//加载合适数量的推文
-
+        void loadFiveTweets();//加载前五笔数据
+        void loadFirstFiveTweets();//加载前五笔数据
     }
     public interface View extends BaseView {
         void startLoadAnimation();//显示加载动画
