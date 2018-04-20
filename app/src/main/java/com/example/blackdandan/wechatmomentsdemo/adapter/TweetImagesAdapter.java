@@ -35,10 +35,10 @@ public class TweetImagesAdapter extends BaseAdapter {
         tweetImageWidth_1 = tweetImageWidth_9 * 3 +padding *2;//三倍的九张图模式的宽+padding
         layoutParams_1 = new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+                tweetImageWidth_1);
         layoutParams_9 = new AbsListView.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+               tweetImageWidth_9);
     }
 
     public void setImages(List<Map<String,String>> images) {
